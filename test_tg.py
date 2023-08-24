@@ -44,6 +44,7 @@ def get_age(message):
         break
 
 
+
 @bot.callback_query_handler(func=lambda call:True)
 def callback_worker(call):
     global age
@@ -54,5 +55,6 @@ def callback_worker(call):
 
 
 bot.polling(none_stop=True, interval=0)
+
 
 
