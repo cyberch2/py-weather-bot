@@ -4,28 +4,23 @@ from telebot import types
 bot = telebot.TeleBot('6296801723:AAFpHYA2rM8e6c7HUgEclejlYwjWI_fKhZQ')
 
 
-def keyboard():
-    your_text = ""
-    answer = ""
-    keyboard1 = types.InlineKeyboardMarkup()
-    key_n1 = types.InlineKeyboardButton(text=your_text, callback_data=answer)
+@bot.message_handler(commands=['start'])
+def start(message):
+    keyboard1 = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    key_n1 = types.KeyboardButton("Конечно!")
     keyboard1.add(key_n1)
+    question = ('Привет, это WeatherBot. Бот, который показывает погоду в нужном тебе городе! Чтобы начать работу, '
+                'нажми кнопку "Конечно". Начнем?)')
+    bot.send_message(message.from_user.id, text=question, reply_markup=keyboard1)
+    bot.register_next_step_handler(message, city)
 
 
 @bot.message_handler(content_types=['text'])
-def start(message):
-    if message.text == "/reg":
-        keyboard.your_text = "Конечно!"
-        keyboard.answer = "Yes"
-        question = "Начнем?)"
-        bot.send_message(message.from_user.id, text=question, reply_markup=keyboard())
-        bot.register_next_step_handler(message, city)
-    else:
-        bot.send_message(message.from_user.id, "Напиши /reg")
-
-
 def city(message):
-    pass
+    if message.text == "Конечно!":
+        bot.send_message(message.from_user.id, "Давай разберемся с тобой в каком городе ты живешь) Напиши свой город)")
+    else:
+        bot.send_message(message.from_user.id, "Нажми на кнопку))))")
 
 
 bot.polling(none_stop=True, interval=0)
